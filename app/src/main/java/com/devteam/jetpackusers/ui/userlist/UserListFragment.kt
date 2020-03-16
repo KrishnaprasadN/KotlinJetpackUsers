@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,7 @@ import com.devteam.jetpackusers.R
 import com.devteam.jetpackusers.databinding.UserListFragmentBinding
 import com.devteam.jetpackusers.databinding.UserListItemBinding
 import com.devteam.jetpackusers.dummy.DummyContent
+import com.devteam.jetpackusers.utils.Logger
 
 class UserListFragment : Fragment() {
     lateinit var  binding : UserListFragmentBinding
@@ -36,6 +38,11 @@ class UserListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(UserListViewModel::class.java)
+
+        viewModel.getUsersOfPage(1).observe(this, Observer {
+            Logger.d("api call ****  Total size is ${it?.size ?: "NULL"} ")
+
+        })
     }
 }
 
