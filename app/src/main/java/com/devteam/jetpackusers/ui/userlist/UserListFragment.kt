@@ -44,7 +44,7 @@ class UserListFragment : Fragment(){
         binding.list.addItemDecoration(decoration)
         binding.list.layoutManager = LinearLayoutManager(context);
 
-        viewModel.users.observe(viewLifecycleOwner, Observer<List<User>> {
+        viewModel.getUsersOfPage(1).observe(viewLifecycleOwner, Observer<List<User>> {
             Log.d("Activity", "list: ${it?.size}")
             showEmptyList(it?.size == 0)
             adapter.submitList(it)
@@ -59,12 +59,6 @@ class UserListFragment : Fragment(){
             binding.emptyList.visibility = View.GONE
             binding.list.visibility = View.VISIBLE
         }
-
-
-        viewModel.getUsersOfPage(1).observe(this, Observer {
-            Logger.d("api call ****  Total size is ${it?.size ?: "NULL"} ")
-
-        })
     }
 }
 

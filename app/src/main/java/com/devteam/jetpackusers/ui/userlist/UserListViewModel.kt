@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.devteam.jetpackusers.io.model.User
+import com.devteam.jetpackusers.repository.DataRepository
 
 class UserListViewModel : ViewModel() {
     val dataRepository = DataRepository()
