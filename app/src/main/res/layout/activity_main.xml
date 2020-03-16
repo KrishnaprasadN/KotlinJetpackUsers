@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.devteam.jetpackusers.ui.MainActivity">
 
-    <data>
-        <!--<variable name="user" type="com.example.User"/>-->
-    </data>
 
     <LinearLayout
 
