@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface RetroService {
 
   @GET("users?page=1")
-  //fun getUsersForPage(@Query("page")pageId:Int): Call<Page>
-  fun getUsersForPage(): Call<Page>
+  suspend fun getUsersForPage(@Query("page")pageId:Int): Page
+  //fun getUsersForPage(): Call<Page>
 
 }

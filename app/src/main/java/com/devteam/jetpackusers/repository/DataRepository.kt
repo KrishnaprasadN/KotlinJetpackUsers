@@ -16,9 +16,9 @@ class DataRepository {
 
     var retroService: RetroService = RetrofitInstance.retroService
 
-    //fun getUserFor(pageId: Int): Page = retroService.getUsersForPage(pageId)
+    suspend fun getUserFor(pageId: Int): Page = retroService.getUsersForPage(pageId)
 
-    fun getUsersOf(pageId: Int): LiveData<List<User>> {
+    /*fun getUsersOf(pageId: Int): LiveData<List<User>> {
         Logger.d("DataManager - > getAllEmployees");
         var data: MutableLiveData<List<User>> = MutableLiveData()
 
@@ -38,5 +38,5 @@ class DataRepository {
         })
 
         return data
-    }
+    }*/
 }
