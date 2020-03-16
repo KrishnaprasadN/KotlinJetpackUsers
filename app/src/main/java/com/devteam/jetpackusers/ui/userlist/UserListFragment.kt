@@ -16,6 +16,7 @@ import com.devteam.jetpackusers.databinding.UserListFragmentBinding
 import com.devteam.jetpackusers.databinding.UserListItemBinding
 import com.devteam.jetpackusers.dummy.DummyContent
 import com.devteam.jetpackusers.io.model.User
+import com.devteam.jetpackusers.utils.Logger
 
 class UserListFragment : Fragment(){
     lateinit var binding: UserListFragmentBinding
@@ -58,6 +59,12 @@ class UserListFragment : Fragment(){
             binding.emptyList.visibility = View.GONE
             binding.list.visibility = View.VISIBLE
         }
+
+
+        viewModel.getUsersOfPage(1).observe(this, Observer {
+            Logger.d("api call ****  Total size is ${it?.size ?: "NULL"} ")
+
+        })
     }
 }
 
