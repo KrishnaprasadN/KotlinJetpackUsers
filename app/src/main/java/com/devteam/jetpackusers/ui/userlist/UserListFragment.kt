@@ -1,66 +1,106 @@
 package com.devteam.jetpackusers.ui.userlist
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.devteam.jetpackusers.R
+import com.devteam.jetpackusers.common.loadImageByUrl
 import com.devteam.jetpackusers.databinding.UserListFragmentBinding
 import com.devteam.jetpackusers.databinding.UserListItemBinding
 import com.devteam.jetpackusers.dummy.DummyContent
+import com.devteam.jetpackusers.io.model.User
 
-class UserListFragment : Fragment() {
-    lateinit var  binding : UserListFragmentBinding
-
+class UserListFragment : Fragment(){
+    lateinit var binding: UserListFragmentBinding
     private lateinit var viewModel: UserListViewModel
+    private val adapter = UserListRecyclerViewAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.user_list_fragment, container, false)
-        binding = UserListFragmentBinding.inflate(inflater, view as ViewGroup?,false);
+        binding = UserListFragmentBinding.inflate(inflater, view as ViewGroup?, false);
 
-        binding.list.layoutManager = LinearLayoutManager(context);
-        binding.list.adapter =
-            UserListRecyclerViewAdapter(
-                DummyContent.ITEMS
-            )
-        return  binding.getRoot()
+        return binding.getRoot()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(UserListViewModel::class.java)
+        initAdapter()
+    }
+
+    private fun initAdapter() {
+        val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        binding.list.addItemDecoration(decoration)
+        binding.list.layoutManager = LinearLayoutManager(context);
+
+        viewModel.users.observe(viewLifecycleOwner, Observer<List<User>> {
+            Log.d("Activity", "list: ${it?.size}")
+            showEmptyList(it?.size == 0)
+            adapter.submitList(it)
+        })
+    }
+
+    private fun showEmptyList(show: Boolean) {
+        if (show) {
+            binding.emptyList.visibility = View.VISIBLE
+            binding.list.visibility = View.GONE
+        } else {
+            binding.emptyList.visibility = View.GONE
+            binding.list.visibility = View.VISIBLE
+        }
     }
 }
 
 
-class UserListRecyclerViewAdapter(
-        private val values: List<DummyContent.DummyItem>
-) : RecyclerView.Adapter<UserListRecyclerViewAdapter.ViewHolder>() {
+
+
+class UserListRecyclerViewAdapter :
+    ListAdapter<User, UserListRecyclerViewAdapter.ViewHolder>(REPO_COMPARATOR) ,UserListClickListner {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.user_list_item, parent, false)
-        var adapterBinding = UserListItemBinding.inflate(LayoutInflater.from(parent.context), view as ViewGroup?,false);
+            .inflate(R.layout.user_list_item, parent, false)
+        var adapterBinding = UserListItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            view as ViewGroup?,
+            false
+        );
 
-        return ViewHolder(adapterBinding.root,adapterBinding)
+        return ViewHolder(adapterBinding.root, adapterBinding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-        holder.adapterBinding.userId.text = item.id
-        holder.adapterBinding.userName.text = item.content
+        val user = getItem(position)
+        holder.adapterBinding.userAvatar.loadImageByUrl(user.avatar)
+        holder.adapterBinding.user = user
+        holder.adapterBinding.callback = this
     }
 
-    override fun getItemCount(): Int = values.size
 
-    inner class ViewHolder(val view: View, adapterBinding: UserListItemBinding) : RecyclerView.ViewHolder(view) {
-         var adapterBinding : UserListItemBinding = adapterBinding
+    inner class ViewHolder(val view: View, adapterBinding: UserListItemBinding) :
+        RecyclerView.ViewHolder(view) {
+        var adapterBinding: UserListItemBinding = adapterBinding
+    }
+
+    companion object {
+        private val REPO_COMPARATOR = object : DiffUtil.ItemCallback<User>() {
+            override fun areItemsTheSame(oldItem: User, newItem: User): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: User, newItem: User): Boolean =
+                oldItem == newItem
+        }
+    }
+    override fun onUserClicked(id: Int) {
     }
 }

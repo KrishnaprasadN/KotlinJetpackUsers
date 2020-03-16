@@ -10,5 +10,14 @@
         android:id="@+id/userListFragment"
         android:name="com.devteam.jetpackusers.ui.userlist.UserListFragment"
         android:label="user_list_fragment"
-        tools:layout="@layout/user_list_fragment" />
+        tools:layout="@layout/user_list_fragment" >
+        <action
+            android:id="@+id/action_userListFragment_to_scrollingFragment"
+            app:destination="@id/scrollingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scrollingFragment"
+        android:name="com.devteam.jetpackusers.ui.userdetail.UserDetailFragment"
+        android:label="fragment_scrolling"
+        tools:layout="@layout/fragment_user_detail" />
 </navigation>
