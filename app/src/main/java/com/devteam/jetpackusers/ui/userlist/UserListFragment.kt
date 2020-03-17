@@ -44,7 +44,7 @@ class UserListFragment : Fragment(){
         binding.list.addItemDecoration(decoration)
         binding.list.layoutManager = LinearLayoutManager(context);
 
-        viewModel.getUsersOfPage(1).observe(viewLifecycleOwner, Observer<List<User>> {
+        viewModel.users.observe(viewLifecycleOwner, Observer<List<User>> {
             Log.d("Activity", "list: ${it?.size}")
             showEmptyList(it?.size == 0)
             adapter.submitList(it)
@@ -82,6 +82,7 @@ class UserListRecyclerViewAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = getItem(position)
+        Logger.d("**** onBindViewHolder - $user")
         holder.adapterBinding.userAvatar.loadImageByUrl(user.avatar)
         holder.adapterBinding.user = user
         holder.adapterBinding.callback = this
@@ -91,6 +92,7 @@ class UserListRecyclerViewAdapter :
     inner class ViewHolder(val view: View, adapterBinding: UserListItemBinding) :
         RecyclerView.ViewHolder(view) {
         var adapterBinding: UserListItemBinding = adapterBinding
+
     }
 
     companion object {
