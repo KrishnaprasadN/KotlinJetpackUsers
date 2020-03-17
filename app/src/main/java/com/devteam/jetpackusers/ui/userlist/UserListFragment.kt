@@ -18,7 +18,7 @@ import com.devteam.jetpackusers.dummy.DummyContent
 import com.devteam.jetpackusers.io.model.User
 import com.devteam.jetpackusers.utils.Logger
 
-class UserListFragment : Fragment(){
+class UserListFragment : Fragment() {
     lateinit var binding: UserListFragmentBinding
     private lateinit var viewModel: UserListViewModel
     private val adapter = UserListRecyclerViewAdapter()
@@ -63,10 +63,9 @@ class UserListFragment : Fragment(){
 }
 
 
-
-
 class UserListRecyclerViewAdapter :
-    ListAdapter<User, UserListRecyclerViewAdapter.ViewHolder>(REPO_COMPARATOR) ,UserListClickListner {
+    ListAdapter<User, UserListRecyclerViewAdapter.ViewHolder>(REPO_COMPARATOR),
+    UserListClickListner {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -104,6 +103,7 @@ class UserListRecyclerViewAdapter :
                 oldItem == newItem
         }
     }
+
     override fun onUserClicked(id: Int) {
     }
 }
