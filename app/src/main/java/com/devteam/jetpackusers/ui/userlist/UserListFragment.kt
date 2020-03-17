@@ -44,10 +44,17 @@ class UserListFragment : Fragment() {
         binding.list.addItemDecoration(decoration)
         binding.list.layoutManager = LinearLayoutManager(context);
 
+        // get the users for page
         viewModel.users.observe(viewLifecycleOwner, Observer<List<User>> {
-            Log.d("Activity", "list: ${it?.size}")
+            Log.d("Activity", "*** list: ${it?.size}")
             showEmptyList(it?.size == 0)
             adapter.submitList(it)
+        })
+
+        // TODO: This api needs to be called from User Details screen
+        // get the user details
+        viewModel.userDetails.observe(viewLifecycleOwner, Observer {
+            Log.d("Activity", "*** User Details: ${it}")
         })
     }
 
