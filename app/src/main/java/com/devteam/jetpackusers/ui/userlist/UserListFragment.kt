@@ -21,7 +21,7 @@ import com.devteam.jetpackusers.dummy.DummyContent
 import com.devteam.jetpackusers.io.model.User
 import com.devteam.jetpackusers.utils.Logger
 
-class UserListFragment : Fragment(){
+class UserListFragment : Fragment() {
     lateinit var binding: UserListFragmentBinding
     private lateinit var viewModel: UserListViewModel
     private val adapter = UserListRecyclerViewAdapter()
@@ -48,10 +48,18 @@ class UserListFragment : Fragment(){
         binding.list.addItemDecoration(decoration)
         binding.list.layoutManager = LinearLayoutManager(context);
 
+
+        // get the users for page
         viewModel.users.observe(viewLifecycleOwner, Observer<List<User>> {
-            Log.d("Activity", "list: ${it?.size}")
+            Log.d("Activity", "*** list: ${it?.size}")
             showEmptyList(it?.size == 0)
             adapter.submitList(it)
+        })
+
+        // TODO: This api needs to be called from User Details screen
+        // get the user details
+        viewModel.userDetails.observe(viewLifecycleOwner, Observer {
+            Log.d("Activity", "*** User Details: ${it}")
         })
     }
 
@@ -67,10 +75,9 @@ class UserListFragment : Fragment(){
 }
 
 
-
-
 class UserListRecyclerViewAdapter :
-    ListAdapter<User, UserListRecyclerViewAdapter.ViewHolder>(REPO_COMPARATOR) ,UserListClickListner {
+    ListAdapter<User, UserListRecyclerViewAdapter.ViewHolder>(REPO_COMPARATOR),
+    UserListClickListner {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -86,6 +93,7 @@ class UserListRecyclerViewAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = getItem(position)
+        Logger.d("**** onBindViewHolder - $user")
         holder.adapterBinding.userAvatar.loadImageByUrl(user.avatar)
         holder.adapterBinding.user = user
         holder.adapterBinding.callback = this
@@ -95,6 +103,7 @@ class UserListRecyclerViewAdapter :
     inner class ViewHolder(val view: View, adapterBinding: UserListItemBinding) :
         RecyclerView.ViewHolder(view) {
         var adapterBinding: UserListItemBinding = adapterBinding
+
     }
 
     companion object {

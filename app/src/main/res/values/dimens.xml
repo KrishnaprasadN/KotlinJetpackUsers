@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="user_empty_text_size">24sp</dimen>
-    <dimen name="userlist_item_margin">24sp</dimen>
-    <dimen name="text_margin">16dp</dimen>
+    <dimen name="text_margin">10</dimen>
+    <dimen name="user_empty_text_size">20</dimen>
+    <dimen name="userlist_item_margin">10</dimen>
 </resources>
