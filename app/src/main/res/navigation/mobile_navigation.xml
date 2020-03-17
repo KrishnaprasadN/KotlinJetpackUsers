@@ -11,6 +11,10 @@
         android:name="com.devteam.jetpackusers.ui.userlist.UserListFragment"
         android:label="user_list_fragment"
         tools:layout="@layout/user_list_fragment" >
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            />
         <action
             android:id="@+id/action_userListFragment_to_scrollingFragment"
             app:destination="@id/scrollingFragment" />

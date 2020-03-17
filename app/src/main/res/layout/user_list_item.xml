@@ -10,7 +10,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/userlist_item_margin"
-    android:onClick="@{() -> callback.onUserClicked(user.id)}"
+    android:onClick="@{() -> callback.onUserClicked(user)}"
     android:orientation="vertical">
 
     <ImageView
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:text="@{user.id}"
+        android:text="@{String.valueOf(user.id)}"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView

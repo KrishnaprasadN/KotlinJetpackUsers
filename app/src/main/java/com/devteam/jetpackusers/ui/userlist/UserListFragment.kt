@@ -6,9 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.*
 import com.devteam.jetpackusers.R
 import com.devteam.jetpackusers.common.loadImageByUrl
@@ -41,10 +44,11 @@ class UserListFragment : Fragment(){
 
     private fun initAdapter() {
         val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        binding.list.adapter = adapter
         binding.list.addItemDecoration(decoration)
         binding.list.layoutManager = LinearLayoutManager(context);
 
-        viewModel.getUsersOfPage(1).observe(viewLifecycleOwner, Observer<List<User>> {
+        viewModel.users.observe(viewLifecycleOwner, Observer<List<User>> {
             Log.d("Activity", "list: ${it?.size}")
             showEmptyList(it?.size == 0)
             adapter.submitList(it)
@@ -102,6 +106,8 @@ class UserListRecyclerViewAdapter :
                 oldItem == newItem
         }
     }
-    override fun onUserClicked(id: Int) {
+    override fun onUserClicked(user : User) {
+        var bundle = bundleOf("userId" to user)
+        Navigation.createNavigateOnClickListener(R.id.action_userListFragment_to_scrollingFragment, bundle)
     }
 }
