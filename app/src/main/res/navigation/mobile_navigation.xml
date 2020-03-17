@@ -9,19 +9,23 @@
     <fragment
         android:id="@+id/userListFragment"
         android:name="com.devteam.jetpackusers.ui.userlist.UserListFragment"
-        android:label="user_list_fragment"
+        android:label="Users"
         tools:layout="@layout/user_list_fragment" >
         <argument
             android:name="userId"
             app:argType="integer"
             />
         <action
-            android:id="@+id/action_userListFragment_to_scrollingFragment"
-            app:destination="@id/scrollingFragment" />
+            android:id="@+id/action_userListFragment_to_userDetailFragment"
+            app:destination="@id/UserDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
-        android:id="@+id/scrollingFragment"
+        android:id="@+id/UserDetailFragment"
         android:name="com.devteam.jetpackusers.ui.userdetail.UserDetailFragment"
-        android:label="fragment_scrolling"
+        android:label="User Detail"
         tools:layout="@layout/fragment_user_detail" />
 </navigation>

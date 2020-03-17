@@ -1,10 +1,12 @@
 package com.devteam.jetpackusers.ui.userdetail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.devteam.jetpackusers.R
 
 class UserDetailFragment : Fragment() {
@@ -16,4 +18,11 @@ class UserDetailFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_user_detail, container, false)
     }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val userId = arguments?.getInt("userId")
+        Log.d("onActivityCreated","onActivityCreated $userId")
+    }
+
 }

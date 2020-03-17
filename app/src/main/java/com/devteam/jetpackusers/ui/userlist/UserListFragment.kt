@@ -2,29 +2,28 @@ package com.devteam.jetpackusers.ui.userlist
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import com.devteam.jetpackusers.R
 import com.devteam.jetpackusers.common.loadImageByUrl
 import com.devteam.jetpackusers.databinding.UserListFragmentBinding
 import com.devteam.jetpackusers.databinding.UserListItemBinding
-import com.devteam.jetpackusers.dummy.DummyContent
 import com.devteam.jetpackusers.io.model.User
-import com.devteam.jetpackusers.utils.Logger
 
 class UserListFragment : Fragment() {
     lateinit var binding: UserListFragmentBinding
     private lateinit var viewModel: UserListViewModel
-    private val adapter = UserListRecyclerViewAdapter()
+    private val adapter = UserListRecyclerViewAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,7 +74,7 @@ class UserListFragment : Fragment() {
 }
 
 
-class UserListRecyclerViewAdapter :
+class UserListRecyclerViewAdapter(private val fragment: Fragment) :
     ListAdapter<User, UserListRecyclerViewAdapter.ViewHolder>(REPO_COMPARATOR),
     UserListClickListner {
 
@@ -93,7 +92,6 @@ class UserListRecyclerViewAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = getItem(position)
-        Logger.d("**** onBindViewHolder - $user")
         holder.adapterBinding.userAvatar.loadImageByUrl(user.avatar)
         holder.adapterBinding.user = user
         holder.adapterBinding.callback = this
@@ -115,8 +113,9 @@ class UserListRecyclerViewAdapter :
                 oldItem == newItem
         }
     }
-    override fun onUserClicked(user : User) {
-        var bundle = bundleOf("userId" to user)
-        Navigation.createNavigateOnClickListener(R.id.action_userListFragment_to_scrollingFragment, bundle)
+    override fun onUserClicked(view : View, userId : Integer) {
+        var bundle = bundleOf("userId" to userId)
+        view.findNavController().navigate(R.id.action_userListFragment_to_userDetailFragment,bundle)
+
     }
 }
