@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UserListFragment.UserListRecyclerViewAdapter">
 
     <data>
@@ -36,7 +37,8 @@
             android:layout_height="@dimen/user_avatar_sizein_list"
             android:layout_marginTop="@dimen/text_margin"
             android:layout_below="@+id/user_name"
-            android:adjustViewBounds="true" />
+            android:adjustViewBounds="true"
+            app:loadImage="@{user.avatar}"/>
 
 
 

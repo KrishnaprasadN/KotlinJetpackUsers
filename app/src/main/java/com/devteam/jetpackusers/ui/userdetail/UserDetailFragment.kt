@@ -1,28 +1,39 @@
 package com.devteam.jetpackusers.ui.userdetail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.devteam.jetpackusers.R
+import com.devteam.jetpackusers.common.loadImageByUrl
+import com.devteam.jetpackusers.databinding.FragmentUserDetailBinding
 
 class UserDetailFragment : Fragment() {
-
+     lateinit var binding: FragmentUserDetailBinding
+     private lateinit var viewModel: UserDetailViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_user_detail, container, false)
+        val view = inflater.inflate(R.layout.fragment_user_detail, container, false)
+        binding = FragmentUserDetailBinding.inflate(inflater, view as ViewGroup?, false);
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val userId = arguments?.getInt("userId")
-        Log.d("onActivityCreated","onActivityCreated $userId")
+        viewModel = ViewModelProvider(this).get(UserDetailViewModel::class.java)
+        viewModel.userId = arguments?.getInt("userId")!!
+
+        //binding.user = viewModel.userDetails
+        viewModel.userDetails.observe(viewLifecycleOwner, Observer {
+             binding.user = it
+            //binding.userAvatar.loadImageByUrl(null)
+        })
     }
 
 }

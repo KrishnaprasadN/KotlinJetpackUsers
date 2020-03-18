@@ -9,19 +9,16 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import com.devteam.jetpackusers.R
 import com.devteam.jetpackusers.common.loadImageByUrl
-import com.devteam.jetpackusers.databinding.UserListFragmentBinding
-import com.devteam.jetpackusers.databinding.UserListItemBinding
+import com.devteam.jetpackusers.databinding.FragmentUserListBinding
+import com.devteam.jetpackusers.databinding.ItemUserListBinding
 import com.devteam.jetpackusers.io.model.User
 
 class UserListFragment : Fragment() {
-    lateinit var binding: UserListFragmentBinding
+    lateinit var binding: FragmentUserListBinding
     private lateinit var viewModel: UserListViewModel
     private val adapter = UserListRecyclerViewAdapter(this)
 
@@ -29,8 +26,8 @@ class UserListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.user_list_fragment, container, false)
-        binding = UserListFragmentBinding.inflate(inflater, view as ViewGroup?, false);
+        val view = inflater.inflate(R.layout.fragment_user_list, container, false)
+        binding = FragmentUserListBinding.inflate(inflater, view as ViewGroup?, false);
 
         return binding.getRoot()
     }
@@ -54,12 +51,6 @@ class UserListFragment : Fragment() {
             showEmptyList(it?.size == 0)
             adapter.submitList(it)
         })
-
-        // TODO: This api needs to be called from User Details screen
-        // get the user details
-        viewModel.userDetails.observe(viewLifecycleOwner, Observer {
-            Log.d("Activity", "*** User Details: ${it}")
-        })
     }
 
     private fun showEmptyList(show: Boolean) {
@@ -80,8 +71,8 @@ class UserListRecyclerViewAdapter(private val fragment: Fragment) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.user_list_item, parent, false)
-        var adapterBinding = UserListItemBinding.inflate(
+            .inflate(R.layout.item_user_list, parent, false)
+        var adapterBinding = ItemUserListBinding.inflate(
             LayoutInflater.from(parent.context),
             view as ViewGroup?,
             false
@@ -92,15 +83,13 @@ class UserListRecyclerViewAdapter(private val fragment: Fragment) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = getItem(position)
-        holder.adapterBinding.userAvatar.loadImageByUrl(user.avatar)
         holder.adapterBinding.user = user
         holder.adapterBinding.callback = this
     }
 
-
-    inner class ViewHolder(val view: View, adapterBinding: UserListItemBinding) :
+    inner class ViewHolder(val view: View, adapterBinding: ItemUserListBinding) :
         RecyclerView.ViewHolder(view) {
-        var adapterBinding: UserListItemBinding = adapterBinding
+        var adapterBinding: ItemUserListBinding = adapterBinding
 
     }
 

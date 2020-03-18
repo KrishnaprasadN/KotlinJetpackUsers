@@ -17,7 +17,7 @@
             android:layout_marginRight="16dp"
             android:visibility="gone"
             app:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/user_list_item" />
+            tools:listitem="@layout/item_user_list" />
 
         <TextView
             android:id="@+id/emptyList"

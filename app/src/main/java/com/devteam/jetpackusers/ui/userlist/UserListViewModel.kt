@@ -15,8 +15,6 @@ class UserListViewModel : ViewModel() {
     // page number which is used to get the list of users
     var pageNo = 1
 
-    // user id which is used to fetch the user details
-    var userId = 1
 
     // get the list of users for the given page id.
     // this uses a live data scope with suspended data repository method
@@ -24,13 +22,5 @@ class UserListViewModel : ViewModel() {
         val page = dataRepository.getUserFor(pageNo)
         Logger.d("**** ViewModel - received the page response - $page")
         emit(page.data)
-    }
-
-    // get the user details for the given user id
-    // this uses a live data scope with suspended data repository method
-    val userDetails = liveData {
-        val userDataResponse = dataRepository.getUserDetail(userId)
-        Logger.d("**** ViewModel - received the user details response - $userDataResponse")
-        emit(userDataResponse.data)
     }
 }

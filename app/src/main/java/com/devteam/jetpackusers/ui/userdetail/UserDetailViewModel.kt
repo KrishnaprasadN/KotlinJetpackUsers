@@ -12,5 +12,13 @@ class UserDetailViewModel : ViewModel() {
     // data repository instance
     val dataRepository = DataRepository()
 
-
+    // user id which is used to fetch the user details
+    var userId = 0
+    // get the user details for the given user id
+    // this uses a live data scope with suspended data repository method
+    val userDetails = liveData {
+        val userDataResponse = dataRepository.getUserDetail(userId.toInt())
+        Logger.d("**** ViewModel - received the user details response - $userDataResponse")
+        emit(userDataResponse.data)
+    }
 }
