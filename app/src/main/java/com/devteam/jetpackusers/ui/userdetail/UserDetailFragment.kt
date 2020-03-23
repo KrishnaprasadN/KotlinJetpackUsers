@@ -8,17 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.devteam.jetpackusers.R
-import com.devteam.jetpackusers.common.loadImageByUrl
 import com.devteam.jetpackusers.databinding.FragmentUserDetailBinding
 
 class UserDetailFragment : Fragment() {
-     lateinit var binding: FragmentUserDetailBinding
-     private lateinit var viewModel: UserDetailViewModel
+    lateinit var binding: FragmentUserDetailBinding
+    private lateinit var viewModel: UserDetailViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view = inflater.inflate(R.layout.fragment_user_detail, container, false)
         binding = FragmentUserDetailBinding.inflate(inflater, view as ViewGroup?, false);
         return binding.root
@@ -26,14 +27,11 @@ class UserDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         viewModel = ViewModelProvider(this).get(UserDetailViewModel::class.java)
         viewModel.userId = arguments?.getInt("userId")!!
-
-        //binding.user = viewModel.userDetails
         viewModel.userDetails.observe(viewLifecycleOwner, Observer {
-             binding.user = it
-            //binding.userAvatar.loadImageByUrl(null)
+            binding.user = it
         })
     }
-
 }

@@ -3,41 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.userdetail.UserDetailFragment">
+
     <data>
+
         <variable
             name="user"
             type="com.devteam.jetpackusers.io.model.User" />
-
-
     </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
             android:fitsSystemWindows="true"
-            >
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:statusBarScrim="@color/colorPrimaryDark"
-                >
+                app:statusBarScrim="@color/colorPrimaryDark">
+
                 <ImageView
                     android:id="@+id/user_avatar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_loading_image_24"
                     android:scaleType="centerCrop"
+                    android:src="@drawable/ic_loading_image_24"
                     app:layout_collapseMode="parallax"
-                    app:loadImage="@{user.avatar}"
-                    />
+                    app:loadImage="@{user.avatar}" />
 
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -53,13 +52,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
-                    android:textStyle="bold"
-                    android:text="@{user.firstName+` `+user.lastName}" />
+                    android:text="@{user.firstName+` `+user.lastName}"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/user_email"

@@ -12,38 +12,39 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.*
 import com.devteam.jetpackusers.R
-import com.devteam.jetpackusers.common.loadImageByUrl
 import com.devteam.jetpackusers.databinding.FragmentUserListBinding
 import com.devteam.jetpackusers.databinding.ItemUserListBinding
 import com.devteam.jetpackusers.io.model.User
 
 class UserListFragment : Fragment() {
+
     lateinit var binding: FragmentUserListBinding
     private lateinit var viewModel: UserListViewModel
-    private val adapter = UserListRecyclerViewAdapter(this)
+    private val adapter = UserListRecyclerViewAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user_list, container, false)
-        binding = FragmentUserListBinding.inflate(inflater, view as ViewGroup?, false);
+        binding = FragmentUserListBinding.inflate(inflater, view as ViewGroup?, false)
 
-        return binding.getRoot()
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(UserListViewModel::class.java)
+
         initAdapter()
     }
 
     private fun initAdapter() {
-        val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        binding.list.adapter = adapter
-        binding.list.addItemDecoration(decoration)
-        binding.list.layoutManager = LinearLayoutManager(context);
-
+        with(binding) {
+            list.adapter = adapter
+            list.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            list.layoutManager = LinearLayoutManager(context)
+        }
 
         // get the users for page
         viewModel.users.observe(viewLifecycleOwner, Observer<List<User>> {
@@ -65,9 +66,9 @@ class UserListFragment : Fragment() {
 }
 
 
-class UserListRecyclerViewAdapter(private val fragment: Fragment) :
+class UserListRecyclerViewAdapter :
     ListAdapter<User, UserListRecyclerViewAdapter.ViewHolder>(REPO_COMPARATOR),
-    UserListClickListner {
+    UserListClickListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -90,7 +91,6 @@ class UserListRecyclerViewAdapter(private val fragment: Fragment) :
     inner class ViewHolder(val view: View, adapterBinding: ItemUserListBinding) :
         RecyclerView.ViewHolder(view) {
         var adapterBinding: ItemUserListBinding = adapterBinding
-
     }
 
     companion object {
@@ -102,9 +102,11 @@ class UserListRecyclerViewAdapter(private val fragment: Fragment) :
                 oldItem == newItem
         }
     }
-    override fun onUserClicked(view : View, userId : Integer) {
+
+    override fun onUserClicked(view: View, userId: Integer) {
         var bundle = bundleOf("userId" to userId)
-        view.findNavController().navigate(R.id.action_userListFragment_to_userDetailFragment,bundle)
+        view.findNavController()
+            .navigate(R.id.action_userListFragment_to_userDetailFragment, bundle)
 
     }
 }
