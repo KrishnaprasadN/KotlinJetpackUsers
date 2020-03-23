@@ -10,17 +10,22 @@ import com.devteam.jetpackusers.utils.Logger
  */
 class UserListViewModel : ViewModel() {
     // data repository instance
-    val dataRepository = DataRepository()
+    private val dataRepository = DataRepository()
 
     // page number which is used to get the list of users
-    var pageNo = 1
-
+    private var pageNo = 1
 
     // get the list of users for the given page id.
     // this uses a live data scope with suspended data repository method
     val users = liveData {
-        val page = dataRepository.getUserFor(pageNo)
-        Logger.d("**** ViewModel - received the page response - $page")
-        emit(page.data)
+        Logger.d("**** ViewModel - Calling get user for $pageNo")
+        try {
+            val page = dataRepository.getUserFor(pageNo)
+            Logger.d("**** ViewModel - received the page response - $page")
+            emit(page.data)
+        } catch (e: Exception) {
+            Logger.d("**** Exception $e")
+            emit(listOf())
+        }
     }
 }
