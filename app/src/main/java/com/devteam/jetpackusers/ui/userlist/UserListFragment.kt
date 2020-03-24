@@ -1,6 +1,7 @@
 package com.devteam.jetpackusers.ui.userlist
 
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,10 @@ import com.devteam.jetpackusers.R
 import com.devteam.jetpackusers.databinding.FragmentUserListBinding
 import com.devteam.jetpackusers.databinding.ItemUserListBinding
 import com.devteam.jetpackusers.io.model.User
+import com.devteam.jetpackusers.common.AppViewModelFactory
+import com.devteam.jetpackusers.io.RetrofitInstance
+import com.devteam.jetpackusers.repository.DataRepository
+
 
 class UserListFragment : Fragment() {
 
@@ -34,7 +39,14 @@ class UserListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(UserListViewModel::class.java)
+
+        // create view model factory
+        val factory: AppViewModelFactory = AppViewModelFactory(DataRepository(RetrofitInstance.retroService))
+
+        // get the view model from the factory
+        viewModel = ViewModelProvider(this, factory).get(UserListViewModel::class.java!!)
+
+        //viewModel = ViewModelProvider(this).get(UserListViewModel::class.java)
 
         initAdapter()
     }

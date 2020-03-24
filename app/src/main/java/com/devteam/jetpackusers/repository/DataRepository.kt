@@ -8,9 +8,7 @@ import com.devteam.jetpackusers.io.model.UserDataResponse
 /**
  * Data Repository class is used to get the data from web service API or the Room database
  */
-class DataRepository {
-    // create retrofit service instance
-    var retroService: RetroService = RetrofitInstance.retroService
+class DataRepository(private var retroService: RetroService) {
 
     // get the list of users for the given page id
     suspend fun getUserFor(pageId: Int): Page = retroService.getUsersForPage(pageId)

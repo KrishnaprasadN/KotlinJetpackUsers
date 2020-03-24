@@ -8,9 +8,7 @@ import com.devteam.jetpackusers.utils.Logger
 /**
  * View Model class corresponding to User list fragment
  */
-class UserListViewModel : ViewModel() {
-    // data repository instance
-    private val dataRepository = DataRepository()
+class UserListViewModel(private val dataRepository: DataRepository) : ViewModel() {
 
     // page number which is used to get the list of users
     private var pageNo = 1

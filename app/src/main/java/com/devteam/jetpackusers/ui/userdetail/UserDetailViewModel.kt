@@ -2,15 +2,14 @@ package com.devteam.jetpackusers.ui.userdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import com.devteam.jetpackusers.io.RetrofitInstance
 import com.devteam.jetpackusers.repository.DataRepository
 import com.devteam.jetpackusers.utils.Logger
 
 /**
  * View Model class corresponding to User list fragment
  */
-class UserDetailViewModel : ViewModel() {
-    // data repository instance
-    val dataRepository = DataRepository()
+class UserDetailViewModel(private val dataRepository: DataRepository) : ViewModel() {
 
     // user id which is used to fetch the user details
     var userId = 0
