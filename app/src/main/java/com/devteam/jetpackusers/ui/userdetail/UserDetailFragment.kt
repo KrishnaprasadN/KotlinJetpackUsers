@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.devteam.jetpackusers.R
+import com.devteam.jetpackusers.common.AppViewModelFactory
 import com.devteam.jetpackusers.databinding.FragmentUserDetailBinding
+import com.devteam.jetpackusers.io.RetrofitInstance
+import com.devteam.jetpackusers.repository.DataRepository
 
 class UserDetailFragment : Fragment() {
     lateinit var binding: FragmentUserDetailBinding
@@ -28,7 +31,8 @@ class UserDetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(UserDetailViewModel::class.java)
+        val factory: AppViewModelFactory = AppViewModelFactory(DataRepository(RetrofitInstance.retroService))
+        viewModel = ViewModelProvider(this,factory).get(UserDetailViewModel::class.java)
         viewModel.userId = arguments?.getInt("userId")!!
         viewModel.userDetails.observe(viewLifecycleOwner, Observer {
             binding.user = it
