@@ -36,7 +36,9 @@ class UserDetailFragment : Fragment() {
 
         viewModel.userId = arguments?.getInt("userId")!!
         viewModel.userDetails.observe(viewLifecycleOwner, Observer {
-            binding.user = it
+            it?.let {
+                binding.user = it
+            }
         })
     }
 }

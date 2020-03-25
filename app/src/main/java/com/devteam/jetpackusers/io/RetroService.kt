@@ -15,6 +15,6 @@ interface RetroService {
     suspend fun getUsersForPage(@Query("page") pageId: Int): Page
 
     @GET("users/{id}")
-    suspend fun getUserDetails(@Path("id")id: Int): UserDataResponse
+    suspend fun getUserDetails(@Path("id") id: Int): UserDataResponse
 
 }

@@ -9,9 +9,9 @@ object Logger {
         Log.d(TAG, "**** -> $msg")
     }
 
-    fun logThreadDetails(from:String) {
+    fun logThreadDetails(from: String) {
         val threadId = Thread.currentThread().id
         val name = Thread.currentThread().name
-        d("$from  --> Thread # $threadId with name = $name")
+        d("*** $from  --> Thread # $threadId with name = $name")
     }
 }

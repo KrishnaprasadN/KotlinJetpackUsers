@@ -19,6 +19,7 @@ import com.devteam.jetpackusers.io.model.User
 import com.devteam.jetpackusers.common.AppViewModelFactory
 import com.devteam.jetpackusers.io.RetrofitInstance
 import com.devteam.jetpackusers.repository.DataRepository
+import com.devteam.jetpackusers.utils.Logger
 
 
 class UserListFragment : Fragment() {
@@ -41,12 +42,11 @@ class UserListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         // create view model factory
-        val factory: AppViewModelFactory = AppViewModelFactory(DataRepository(RetrofitInstance.retroService))
+        val factory: AppViewModelFactory =
+            AppViewModelFactory(DataRepository(RetrofitInstance.retroService))
 
         // get the view model from the factory
         viewModel = ViewModelProvider(this, factory).get(UserListViewModel::class.java!!)
-
-        //viewModel = ViewModelProvider(this).get(UserListViewModel::class.java)
 
         initAdapter()
     }
@@ -57,6 +57,8 @@ class UserListFragment : Fragment() {
             list.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             list.layoutManager = LinearLayoutManager(context)
         }
+
+        Logger.logThreadDetails("Fragment")
 
         // get the users for page
         viewModel.users.observe(viewLifecycleOwner, Observer<List<User>> {
