@@ -31,8 +31,9 @@ class UserDetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val factory: AppViewModelFactory = AppViewModelFactory(DataRepository(RetrofitInstance.retroService))
-        viewModel = ViewModelProvider(this,factory).get(UserDetailViewModel::class.java)
+        val factory = AppViewModelFactory(DataRepository(RetrofitInstance.retroService))
+        viewModel = ViewModelProvider(this, factory).get(UserDetailViewModel::class.java)
+
         viewModel.userId = arguments?.getInt("userId")!!
         viewModel.userDetails.observe(viewLifecycleOwner, Observer {
             binding.user = it
