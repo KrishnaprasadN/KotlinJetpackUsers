@@ -19,13 +19,13 @@ class UserListViewModel(private val dataRepository: DataRepository) : ViewModel(
     val users = liveData(Dispatchers.IO) {
         Logger.logThreadDetails("View Model")
         try {
+            Logger.d("**** ViewModel BEFORE ")
             val page = dataRepository.getUserFor(pageNo)
-            Logger.d("**** ViewModel - received the page response - $page")
+            Logger.d("**** ViewModel AFTER - received the page response - $page")
             emit(page.data)
         } catch (e: Exception) {
             Logger.d("**** Exception $e")
             emit(listOf())
         }
     }
-
 }
