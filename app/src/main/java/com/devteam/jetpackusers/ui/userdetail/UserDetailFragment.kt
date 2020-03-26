@@ -10,10 +10,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.devteam.jetpackusers.R
 import com.devteam.jetpackusers.common.AppViewModelFactory
 import com.devteam.jetpackusers.databinding.FragmentUserDetailBinding
-import com.devteam.jetpackusers.io.RetrofitInstance
-import com.devteam.jetpackusers.repository.DataRepository
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.kodein
+import org.kodein.di.generic.instance
 
-class UserDetailFragment : Fragment() {
+class UserDetailFragment : Fragment(), KodeinAware {
+
+    override val kodein by kodein()
+
     lateinit var binding: FragmentUserDetailBinding
     private lateinit var viewModel: UserDetailViewModel
 
@@ -31,7 +35,9 @@ class UserDetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val factory = AppViewModelFactory(DataRepository(RetrofitInstance.retroService))
+        //val factory = AppViewModelFactory(DataRepository(RetrofitInstance.retroService))
+        val factory: AppViewModelFactory by instance()
+
         viewModel = ViewModelProvider(this, factory).get(UserDetailViewModel::class.java)
 
         viewModel.userId = arguments?.getInt("userId")!!

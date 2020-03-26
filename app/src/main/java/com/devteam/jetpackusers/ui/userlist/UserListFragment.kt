@@ -1,7 +1,6 @@
 package com.devteam.jetpackusers.ui.userlist
 
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,16 +12,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.*
 import com.devteam.jetpackusers.R
+import com.devteam.jetpackusers.common.AppViewModelFactory
 import com.devteam.jetpackusers.databinding.FragmentUserListBinding
 import com.devteam.jetpackusers.databinding.ItemUserListBinding
 import com.devteam.jetpackusers.io.model.User
-import com.devteam.jetpackusers.common.AppViewModelFactory
-import com.devteam.jetpackusers.io.RetrofitInstance
-import com.devteam.jetpackusers.repository.DataRepository
 import com.devteam.jetpackusers.utils.Logger
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.kodein
+import org.kodein.di.generic.instance
 
 
-class UserListFragment : Fragment() {
+class UserListFragment : Fragment(), KodeinAware {
+    override val kodein by kodein()
 
     lateinit var binding: FragmentUserListBinding
     private lateinit var viewModel: UserListViewModel
@@ -41,9 +42,11 @@ class UserListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        val factory: AppViewModelFactory by instance()
+
         // create view model factory
-        val factory: AppViewModelFactory =
-            AppViewModelFactory(DataRepository(RetrofitInstance.retroService))
+        /*val factory: AppViewModelFactory =
+            AppViewModelFactory(DataRepository(RetrofitInstance.retroService))*/
 
         // get the view model from the factory
         viewModel = ViewModelProvider(this, factory).get(UserListViewModel::class.java!!)
