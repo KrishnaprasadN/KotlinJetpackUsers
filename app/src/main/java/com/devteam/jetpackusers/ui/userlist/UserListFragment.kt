@@ -42,11 +42,8 @@ class UserListFragment : Fragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        // get the factory instance from DI
         val factory: AppViewModelFactory by instance()
-
-        // create view model factory
-        /*val factory: AppViewModelFactory =
-            AppViewModelFactory(DataRepository(RetrofitInstance.retroService))*/
 
         // get the view model from the factory
         viewModel = ViewModelProvider(this, factory).get(UserListViewModel::class.java!!)

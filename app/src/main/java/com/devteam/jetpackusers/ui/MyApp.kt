@@ -9,18 +9,22 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
 class MyApp : Application(), KodeinAware {
 
     override val kodein: Kodein = Kodein {
 
-        bind<DataRepository>() with provider {
+        bind<DataRepository>() with singleton {
             DataRepository(RetrofitInstance.retroService)
         }
 
         bind<AppViewModelFactory>() with singleton { AppViewModelFactory(instance()) }
+
+        // Following are the different types of Scoping. We need to test this with actual app
+        //bind<AppViewModelFactory>() with scoped(WeakContextScope<Activity>()).singleton { AppViewModelFactory(instance()) }
+        //bind<AppViewModelFactory>() with scoped(ActivityRetainedScope).singleton { AppViewModelFactory(instance()) }
+        //bind<AppViewModelFactory>() with scoped(AndroidLifecycleScope).singleton { AppViewModelFactory(instance()) }
     }
 
     override fun onCreate() {

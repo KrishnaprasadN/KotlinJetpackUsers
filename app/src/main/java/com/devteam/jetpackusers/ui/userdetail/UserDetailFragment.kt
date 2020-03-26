@@ -35,7 +35,7 @@ class UserDetailFragment : Fragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        //val factory = AppViewModelFactory(DataRepository(RetrofitInstance.retroService))
+        // get the factory instance from DI
         val factory: AppViewModelFactory by instance()
 
         viewModel = ViewModelProvider(this, factory).get(UserDetailViewModel::class.java)
