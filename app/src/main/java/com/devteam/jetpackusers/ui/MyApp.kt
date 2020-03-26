@@ -21,6 +21,8 @@ class MyApp : Application(), KodeinAware {
 
         bind<AppViewModelFactory>() with singleton { AppViewModelFactory(instance()) }
 
+        // Refer link https://kodein.org/Kodein-DI/?6.5/android
+
         // Following are the different types of Scoping. We need to test this with actual app
         //bind<AppViewModelFactory>() with scoped(WeakContextScope<Activity>()).singleton { AppViewModelFactory(instance()) }
         //bind<AppViewModelFactory>() with scoped(ActivityRetainedScope).singleton { AppViewModelFactory(instance()) }
